@@ -59,7 +59,6 @@ def kalman_filter(y, mu0, sigma0, a, m, c, h, gamma):
     for j in range(1, n_steps + 1):
         # prediction step
         mu_p[j] = a * mu_a[j - 1] + m
-        # sigma_p[j] = sigma_a[j - 1] * a + c
         sigma_p[j] = a * sigma_a[j - 1] * a + c
 
         # analysis step
@@ -68,7 +67,7 @@ def kalman_filter(y, mu0, sigma0, a, m, c, h, gamma):
         k = sigma_p[j] * h / s
 
         mu_a[j] = mu_p[j] + k * d
-        sigma_a[j] = (1 - k * h) * sigma_p[j] * (1 - k * h) + k * gamma * k
+        sigma_a[j] = (1 - k * h) * sigma_p[j]
 
     return mu_a, sigma_a
 
