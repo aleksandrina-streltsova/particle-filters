@@ -2,15 +2,16 @@ import numpy as np
 import scipy.stats as stats
 
 
-def initial_distribution(sigma2):
+def initial_distribution(phi, sigma2):
     """
-    u_0 ~ N(0, sigma0)
+    u_0 ~ N(0, sigma2 / (1 - phi^2))
 
+    :param phi:    linear coefficient of transition model
     :param sigma2: variance
 
     :return: initial state generator
     """
-    return stats.norm(0, sigma2 ** 0.5)
+    return stats.norm(0, (sigma2 / (1 - phi)) ** 0.5)
 
 
 def transition_model(phi, sigma2):

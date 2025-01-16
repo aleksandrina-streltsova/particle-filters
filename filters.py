@@ -1,4 +1,5 @@
 import numpy as np
+import scipy.stats as stats
 
 
 def sample_trajectory(n_steps, p0, p, nu):
@@ -151,3 +152,8 @@ def bootstrap_pf(y, n_particles, p0, p, nu, no_resampling=False):
         ess[i] = 1 / n_particles / np.sum(w_bs[i] ** 2)
 
     return u_bs, w_bs, ess
+
+
+def log_likelihood(u, y, nu):
+    prob_y = nu(u).pdf(y[:, np.newaxis]).mean(axis=1)
+    return np.sum(np.log(prob_y))
