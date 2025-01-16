@@ -89,9 +89,6 @@ def ensemble_kf(y, n_particles, p0, p, nu):
     y_en = np.zeros((n_steps + 1, n_particles))
     u_en_forecast = np.zeros((n_steps + 1, n_particles))
 
-    S = (np.eye(n_particles) - np.ones((n_particles, n_particles)) / n_particles)
-    S2 = S @ S.T
-
     for j in range(0, n_steps + 1):
         # prediction step
         if j == 0:
@@ -105,7 +102,9 @@ def ensemble_kf(y, n_particles, p0, p, nu):
         # Y = y_en[j] @ S
         # U = u_en_forecast[j] @ S
         # K * Y * Y.T = U * Y.T
-        K = (u_en_forecast[j] @ S2 @ y_en[j]) / (y_en[j] @ S2 @ y_en[j])
+        cov = np.cov(u_en_forecast[j], y_en[j], ddof=0)
+        K = cov[0, 1] / cov[1, 1]
+
         u_en[j] = u_en_forecast[j] + K * (y[j] - y_en[j])
 
     return u_en
