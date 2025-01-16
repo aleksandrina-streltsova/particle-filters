@@ -1,5 +1,4 @@
 import numpy as np
-import scipy.stats as stats
 
 
 def sample_trajectory(n_steps, p0, p, nu):
