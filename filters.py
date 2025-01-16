@@ -92,7 +92,8 @@ def ensemble_kf(y, n_particles, p0, p, nu):
     for j in range(0, n_steps + 1):
         # prediction step
         if j == 0:
-            u_en_forecast[0] = p0.rvs(size=(n_particles,))
+            u_en[0] = p0.rvs(size=(n_particles,))
+            continue
         else:
             u_en_forecast[j] = p(u_en[j - 1]).rvs(size=(n_particles,))
 
